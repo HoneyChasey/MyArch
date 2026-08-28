@@ -6,3 +6,4 @@ snapper
 flatpak 
 ghostty 
 snap-pac
+nix
