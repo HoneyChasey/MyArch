@@ -1,0 +1,18 @@
+## Themes
+theme = "dark:Catppuccin Macchiato"
+
+## Preferences
+window-inherit-working-directory = false
+
+## Settings
+shell-integration = zsh
+shell-integration-features = ssh-env,ssh-terminfo
+
+## Keybinds
+# See all: ghostty +list-keybinds reload_config: ctrl + shift + ,
+
+keybind = ctrl+shift+enter=toggle_split_zoom
+keybind = ctrl+enter=ignore
+
+### Fix escape caracter print
+keybind = shift+enter=text:\n

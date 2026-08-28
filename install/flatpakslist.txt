@@ -1,0 +1,5 @@
+flatpak install flathub org.localsend.localsend_app
+flathub com.discordapp.Discord
+flathub app.zen_browser.zen
+flathub md.obsidian.Obsidian
+flatpak install flathub com.heroicgameslauncher.hgl

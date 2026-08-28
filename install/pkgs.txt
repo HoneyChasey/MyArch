@@ -1,0 +1,8 @@
+direnv
+localsend
+syncthing
+zsh
+snapper
+flatpak 
+ghostty 
+snap-pac

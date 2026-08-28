@@ -1,0 +1,6 @@
+bluetui
+gdu 
+lazydocker
+btop
+wikiman
+fastfetch
