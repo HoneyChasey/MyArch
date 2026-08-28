@@ -7,3 +7,4 @@ flatpak
 ghostty 
 snap-pac
 nix
+arch-wiki-docs
