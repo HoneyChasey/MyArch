@@ -1,0 +1,5 @@
+
+For configuration.sh -> TODO adding in the next update, the oh-my-zsh config inside the host
+For the zshrc -> TODO adding the 
+For configuration.sh -> TODO add this command sudo chown -R "$(whoami)" /nix, after nix was installed in the hosts
+For the .zshrc -> TODO adding to the configuration this line after the installation of nix, echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc , or see if can just only add it diretly ?

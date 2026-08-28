@@ -1,2 +1,3 @@
 snap-pac
 steam
+signal-desktop

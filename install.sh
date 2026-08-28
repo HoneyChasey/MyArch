@@ -41,6 +41,48 @@ checkAndEnableServices(){
   systemctl --user enable --now "${toEnable[@]}"
 }
 
+# Runs an installer/configuration script that lives in one of the submodule /
+# config subfolders of this repo, then returns control here.
+#
+# It's launched with `bash` in a subshell whose working directory is that
+# folder, so the sub-script's relative paths (e.g. `cat install/pkgs-arch.txt`)
+# resolve correctly and its `cd`/`exit` cannot affect this script. The exit
+# code is reported but treated as non-fatal so one failing part doesn't abort
+# the whole install.
+runExternal(){
+  local dir=$1
+  local script=$2
+  if [ ! -f "$dir/$script" ]; then
+    echo -e "${YELLOW}[WARN] $dir/$script not found, skipping.${NC}"
+    return 0
+  fi
+  echo -e "${BLUE}==> Running $dir/$script ...${NC}"
+  ( cd "$dir" && bash "$script" )
+  local rc=$?
+  if [ $rc -ne 0 ]; then
+    echo -e "${YELLOW}[WARN] $dir/$script exited with code $rc, continuing.${NC}"
+  else
+    echo -e "${GREEN}==> $dir/$script finished.${NC}"
+  fi
+  return 0
+}
+
+# Calls the per-component scripts in the submodule / config folders. Each one
+# runs to completion and then execution returns to main().
+runExternalConfigs(){
+  echo -e "${BLUE}==> Running external component scripts...${NC}"
+  runExternal Nvarch install.sh
+  runExternal ghostty-config configuration.sh
+  runExternal zsh-config configuration.sh
+
+  # WARNING: minimal-hypr/install.sh ends by calling its own main(), which runs
+  # `sudo reboot`. If enabled here it will reboot the machine and this script
+  # will never return (nothing after this point would run). Its package install
+  # is already covered above via `cat minimal-hypr/install/pkglist.txt`. Enable
+  # only if you accept that it must be the very last thing that runs.
+  # runExternal minimal-hypr install.sh
+}
+
 systemUpgrade(){
   echo -e "${BLUE}==> Full system upgrade...${NC}"
   sudo pacman -Suy
@@ -49,11 +91,19 @@ systemUpgrade(){
   fi
 }
 
+
+setupDefaultFolder(){
+  mkdir -p ~/Documents ~/Downloads ~/Games ~/Cyber ~/Pictures
+}
+
 installPkgs() {
   echo -e "${BLUE}==> Installing dependencies...${NC}"
   sudo pacman -S --needed --noconfirm $(cat install/pkgs.txt)  
   sudo pacman -S --needed --noconfirm $(cat install/tui-pkgs.txt)  
   sudo pacman -S --needed --noconfirm $(cat install/gui-pkgs.txt)  
+
+  sudo pacman -S --needed --noconfirm $(cat minimal-hypr/install/pkglist.txt)
+  sudo pacman -S --needed --noconfirm $(cat Nvarch/install/pkgs-arch.txt)
   if [ $? -ne 0 ]; then
     errorHandling 1
   fi
@@ -71,10 +121,11 @@ setupStow(){
   rm -rf ~/.config/waybar
   rm -rf ~/.config/quickshell/
   rm ~/.zshrc && ~/.oh-my-zsh/
+  rm -rf ~/.config/ghostty/
   stow --target=$HOME hyprland-config || echo -e "${YELLOW}[WARN] Stow: hyprland-config failed, moving on.${NC}"
   stow --target=$HOME quickshell-bar || echo -e "${YELLOW}[WARN] Stow: waybar-config failed, moving on.${NC}"
   stow --target=$HOME ghostty-config || echo -e "${YELLOW}[WARN] Stow: ghostty-config failed, moving on.${NC}"
-  stow --target=$HOME zsh-config || echo -e "${YELLOW}[WARN] Stow: zsh-config failed, moving on.${NC}"
+  stow --target=$HOME zsh-config || echo -e "${YELLOW}[WARN] Stow: zsh-config failed, moving on.${NC}"wallpaper
 }
 
 installFlatpaks(){
@@ -138,9 +189,11 @@ main(){
   installPkgs
   installFlatpaks
   setupStow
+  runExternalConfigs # Call other external config and setups (for nvarch, minimal-hypr, zsh and ghostty)
   enableServices
   enableAudio
   setupNetworkManager
+  setupDefaultFolder
   echo -e "${GREEN}==> Done! System will reboot in 5 seconds.${NC}"
   echo -e "${YELLOW}Note: When you open your terminal after rebooting, Powerlevel10k will prompt you to configure it.${NC}"
   sleep 5
