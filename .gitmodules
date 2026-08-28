@@ -1,3 +1,6 @@
 [submodule "minimal-hypr"]
 	path = minimal-hypr
 	url = https://github.com/HoneyChasey/minimal-hypr.git
+[submodule "Nvarch"]
+	path = Nvarch
+	url = https://github.com/HoneyChasey/Nvarch.git
