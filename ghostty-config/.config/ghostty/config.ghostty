@@ -10,6 +10,7 @@ window-inherit-working-directory = false
 
 ## Settings
 shell-integration = zsh
+# Auto setup of ssh for ssh who don't reconized x-term-ghosttty, awsome :)
 shell-integration-features = ssh-env,ssh-terminfo
 
 ## Keybinds
