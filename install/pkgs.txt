@@ -1,5 +1,4 @@
 direnv
-localsend
 syncthing
 zsh
 snapper
