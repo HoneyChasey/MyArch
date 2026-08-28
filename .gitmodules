@@ -1,0 +1,3 @@
+[submodule "minimal-hypr"]
+	path = minimal-hypr
+	url = https://github.com/HoneyChasey/minimal-hypr.git
