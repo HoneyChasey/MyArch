@@ -7,3 +7,4 @@ ghostty
 snap-pac
 nix
 arch-wiki-docs
+os-prober
