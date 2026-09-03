@@ -1,2 +1,2 @@
 #!/bin/bash
-# TODO adding in the next update, the oh-my-zsh config inside the host
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
