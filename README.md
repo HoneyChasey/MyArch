@@ -13,3 +13,8 @@ And launch the installer script
 ```bash
 ./install.sh
 ```
+
+You can also stow yourself with
+```bash
+stow --target=$HOME --ignore='.github' config-folder
+```
