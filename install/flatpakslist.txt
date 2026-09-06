@@ -4,3 +4,4 @@ flathub app.zen_browser.zen
 flathub md.obsidian.Obsidian
 flatpak install flathub com.heroicgameslauncher.hgl
 flatpak install flathub com.github.PintaProject.Pinta
+flatpak install flathub com.moonlight_stream.Moonlight
