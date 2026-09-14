@@ -5,3 +5,4 @@ flathub md.obsidian.Obsidian
 flatpak install flathub com.heroicgameslauncher.hgl
 flatpak install flathub com.github.PintaProject.Pinta
 flatpak install flathub com.moonlight_stream.Moonlight
+flatpak install flathub it.mijorus.gearlever
